@@ -29,3 +29,35 @@ function get_user($user_id, ...$columns): array
 
 }
 
+function add_user($content = array())
+{
+    $mysqli = $GLOBALS['mysqli'];
+    $keys = implode(', ', array_keys($content));
+    $values = array_map(fn($u) => "'" . $u . "'", array_values($content));
+    $values = implode(', ', $values);
+    $query = "INSERT INTO users ($keys) values($values)";
+    echo $query;
+    return $mysqli->query($query);
+}
+
+function edit_user($user_id, $content)
+{
+    $mysqli = $GLOBALS['mysqli'];
+    $setters = array();
+    foreach ($content as $key => $val) {
+        $setters[] = $key . " = " . "'" . $val . "'";
+    }
+    $set_str = implode(', ', $setters);
+
+
+    $query = "UPDATE users SET $set_str where id = $user_id";
+    echo $query;
+    return $mysqli->query($query);
+}
+
+function delete_user($user_id)
+{
+    $mysqli = $GLOBALS['mysqli'];
+    $query = "DELETE FROM users where id = $user_id";
+    return $mysqli->query($query);
+}

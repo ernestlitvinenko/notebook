@@ -11,18 +11,29 @@
     <section class="content">
         <div class="container">
             <h1 class="content__title"><?= get_page_title() ?></h1>
-
-            <div class="row">
-                <?php
-                foreach (get_users('id', 'name', 'surname') as $person) {
-                    $id = $person['id'];
-                    $name = $person['name'];
-                    $surname = $person['surname'];
-
-                    echo "<a href='/person.php?id=$id'>$surname $name</a>";
+            <?php
+            if ($GLOBALS['curr_mode'] == 0) {
+                require 'viewer.php';
+            }
+            if ($GLOBALS['curr_mode'] == 4) {
+                require 'person.php';
+            }
+            if ($GLOBALS['curr_mode'] == 1) {
+                require 'edit.php';
+            }
+            if ($GLOBALS['curr_mode'] == 2) {
+                require 'person_id.php';
+                if (array_key_exists('person_id', $_GET)) {
+                    require 'edit.php';
                 }
-                ?>
-            </div>
+            }
+            if ($GLOBALS['curr_mode'] == 3) {
+                require 'person_id.php';
+                if (array_key_exists('person_id', $_GET)) {
+                    require 'edit.php';
+                }
+            }
+            ?>
         </div>
     </section>
 </main>
